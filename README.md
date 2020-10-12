@@ -1,6 +1,15 @@
 # Use OpenVPN to access virtual server instances running in a virtual private cloud
 
-![architecture](./architecture.png)
+<table cellspacing="10" border="0">
+  <tr>
+    <td>
+      <img src="./architecture.png" />
+    </td>
+    <td>
+      <img src="./openvpn.png" />
+    </td>
+  </tr>
+</table>
 
 ## Deploy all resources
 
@@ -9,10 +18,11 @@
    cp terraform.tfvars.template terraform.tfvars
    ```
 1. Edit `terraform.tfvars` to match your environment.
-1. Use the following Docker image to run the deployment scripts. It has all required tools preinstalled.
+1. Use the [following Docker image](https://github.com/l2fprod/ibmcloud-ci) to run the deployment scripts. It has all required tools preinstalled.
    ```
    docker run -it --volume $PWD:/root/mnt/home --workdir /root/mnt/home l2fprod/ibmcloud-ci
    ```
+   You can also try with your own environment. Prereqs are: tfswitch, terraform, ansible, ssh.
 1. Load the environment:
    ```
    source local.env
