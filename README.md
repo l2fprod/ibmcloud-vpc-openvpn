@@ -4,11 +4,11 @@
 
 ## Deploy all resources
 
-1. Copy `template.local.env` to `local.env`:
+1. Copy `terraform.tfvars.template` to `terraform.tfvars`:
    ```sh
-   cp template.local.env local.env
+   cp terraform.tfvars.template terraform.tfvars
    ```
-1. Edit `local.env` to match your environment.
+1. Edit `terraform.tfvars` to match your environment.
 1. Use the following Docker image to run the deployment scripts. It has all required tools preinstalled.
    ```
    docker run -it --volume $PWD:/root/mnt/home --workdir /root/mnt/home l2fprod/ibmcloud-ci
