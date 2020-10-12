@@ -1,5 +1,11 @@
 # Use OpenVPN to access virtual server instances running in a virtual private cloud
 
+Virtual Private Cloud (VPC) come with an additional layer of security as your workload can be completely hidden from the public Internet. But there are times when you will want to get into this private network. A common practice is to use a bastion host to jump into your VPC from your local machine as example. Another option is to install a VPN software inside your VPC to extend the secure VPC network to your local network.
+
+OpenVPN is a popular VPN software solution that can be easily installed on a server and offer a simple way to reach all the servers in your VPC from your local machine.
+
+This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
+
 <table cellspacing="10" border="0">
   <tr>
     <td>
