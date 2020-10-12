@@ -25,14 +25,15 @@ This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
    ```
 1. Edit `terraform.tfvars` to match your environment.
 1. Use the [following Docker image](https://github.com/l2fprod/ibmcloud-ci) to run the deployment scripts. It has all required tools preinstalled.
-   ```
-   docker run -it --volume $PWD:/root/mnt/home --workdir /root/mnt/home l2fprod/ibmcloud-ci
-   ```
+   * On Linux
+      ```
+      docker run -it --volume $PWD:/root/mnt/home --workdir /root/mnt/home l2fprod/ibmcloud-ci
+      ```
+   * On Windows
+      ```
+      docker run -it --volume %CD%:/root/mnt/home --workdir /root/mnt/home l2fprod/ibmcloud-ci
+      ```
    You can also try with your own environment. Prereqs are: tfswitch, terraform, ansible, ssh.
-1. Load the environment:
-   ```
-   source local.env
-   ```
 1. Run `tfswitch` to point to the right Terraform version for this solution:
    ```
    tfswitch
@@ -48,6 +49,10 @@ This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
 1. Change to ansible directory:
    ```
    cd ansible
+   ```
+1. Windows only: make sure the ansible directory is not writeable by others
+   ```
+   chmod o-w .
    ```
 1. Install ansible dependencies
    ```
