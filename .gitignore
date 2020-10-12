@@ -1,0 +1,15 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+
+ansible.cfg
+inventory
+playbook-openvpn.yml
+generated_key_rsa
+client-config
