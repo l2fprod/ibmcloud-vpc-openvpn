@@ -74,11 +74,11 @@ or from a command line
    openvpn --setenv FORWARD_COMPATIBLE 1 --daemon --config ./client-config/mymachine/*-bastion.ovpn
    ```
 
-To view routes on macOS, use `netstat -nr`. On Linux `netstat -ar`.
+To view routes on macOS, use `netstat -nr`. On Linux and Windows `netstat -ar`.
 
 ## Test the OpenVPN connection
 
-Ping one VPC server instance directly from your local machine:
+From the Docker container, ping one VPC server instance directly from your local machine:
 ```
 ping $(terraform output -json | jq -r '.instance_ips.value[0]')
 ```
@@ -97,7 +97,7 @@ If you stop the VPN connection, all these ping would fail.
 
 ## Destroy all configuration
 
-1. To destroy the environment:
+1. To destroy the environment, from the Docker container use:
    ```sh
    terraform destroy
    ```
