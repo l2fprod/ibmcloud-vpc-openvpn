@@ -15,6 +15,12 @@ resource "local_file" "ansible-config" {
     }
   )
   filename = "${path.module}/ansible.cfg"
+
+  # to make sure the directory is not writable by other
+  # so that Ansible does not complain on Windows
+  provisioner "local-exec" {
+    command = "chmod o-w ${path.module}"
+  }
 }
 
 resource "local_file" "ssh-key" {

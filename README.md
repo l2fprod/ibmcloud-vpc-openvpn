@@ -50,10 +50,6 @@ This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
    ```
    cd ansible
    ```
-1. Windows only: make sure the ansible directory is not writeable by others
-   ```
-   chmod o-w .
-   ```
 1. Install ansible dependencies
    ```
    ansible-galaxy install -r requirements.yml
