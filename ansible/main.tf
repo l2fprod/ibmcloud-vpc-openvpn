@@ -28,6 +28,7 @@ resource "local_file" "openvpn-playbook" {
     {
       bastion_ip = var.bastion_ip
       subnets = var.subnets
+      server_network = var.server_network
     }
   )
   filename = "${path.module}/playbook-openvpn.yml"

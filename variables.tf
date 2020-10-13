@@ -19,3 +19,12 @@ variable "vpc_ssh_key_name" {
 variable "tags" {
   default = ["terraform"]
 }
+
+variable "vpc_name" {
+  description = "Name of an existing VPC where to deploy the bastion"
+  default = ""
+}
+
+variable server_network {
+  default = "10.66.0.0"
+}

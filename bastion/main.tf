@@ -52,6 +52,10 @@ output "bastion_ip" {
   value = ibm_is_floating_ip.bastion_ip.address
 }
 
+output instance {
+  value = module.instance.instances.0
+}
+
 resource "ibm_is_security_group" "maintenance" {
   name           = "${var.name}-maintenance"
   vpc            = var.vpc_id
@@ -91,4 +95,3 @@ resource "ibm_is_security_group_rule" "https_outbound" {
 output maintenance_group_id {
   value = ibm_is_security_group.maintenance.id
 }
-

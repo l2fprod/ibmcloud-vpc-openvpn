@@ -23,7 +23,7 @@
       openvpn_server_hostname: "${bastion_ip}",
       # avoid redirecting all traffic to the VPN
       openvpn_redirect_gateway: false,
-      openvpn_server_network: "10.66.0.0",
+      openvpn_server_network: "${server_network}",
       openvpn_set_dns: false,
       # compression is considered insecure, disable it
       # https://community.openvpn.net/openvpn/wiki/VORACLE
