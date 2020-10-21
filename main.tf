@@ -3,6 +3,10 @@ resource ibm_resource_group group {
   tags = var.tags
 }
 
+output resource_group_id {
+  value = ibm_resource_group.group.id
+}
+
 data ibm_is_ssh_key sshkey {
   count = var.vpc_ssh_key_name != "" ? 1 : 0
   name  = var.vpc_ssh_key_name
@@ -59,6 +63,10 @@ resource "ibm_is_security_group_network_interface_attachment" "under_maintenance
   for_each          = { for member in module.instance.instances : member.name => member }
   network_interface = each.value.primary_network_interface.0.id
   security_group    = module.bastion.maintenance_group_id
+}
+
+output vpc_name {
+  value = module.vpc.vpc.name
 }
 
 output bastion_ip {
