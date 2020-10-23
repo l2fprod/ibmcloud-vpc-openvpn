@@ -48,6 +48,10 @@ resource "ibm_is_security_group_rule" "vpn" {
   }
 }
 
+output "bastion_private_ip" {
+  value = module.instance.instances.0.primary_network_interface.0.primary_ipv4_address
+}
+
 output "bastion_ip" {
   value = ibm_is_floating_ip.bastion_ip.address
 }
