@@ -14,7 +14,7 @@ resource "ibm_is_instance" "instance" {
   resource_group = var.resource_group_id
 
   # inject dns config
-  user_data = file("${path.module}/instance-init.sh")
+  user_data = var.user_data != "" ? var.user_data : file("${path.module}/instance-init.sh")
 
   primary_network_interface {
     subnet = var.vpc_subnets[count.index % length(var.vpc_subnets)].id

@@ -17,3 +17,6 @@ variable security_groups {
   default = null
 }
 variable tags {}
+variable user_data {
+  default = ""
+}
