@@ -24,6 +24,17 @@ This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
    cp terraform.tfvars.template terraform.tfvars
    ```
 1. Edit `terraform.tfvars` to match your environment.
+
+   | Name | Description | Required |
+   | ---- | ----------- | ---|
+   | ibmcloud_api_key | IBM Cloud API key to create resources | Y |
+   | region | Region where to find and create resources | Y |
+   | basename | Prefix for all resources created by the template | Y |
+   | vpc_ssh_key_name | Name of an existing VPC SSH key to inject in all created instances | N |
+   | existing_resource_group_name | Name of an existing resource group where to create resources | N |
+   | existing_vpc_name | Name of an existing VPC where to add the bastion | N |
+   | existing_subnet_id | ID of an existing subnet where to add the bastion. VPC name must be set too. | N |
+
 1. Use the [following Docker image](https://github.com/l2fprod/ibmcloud-ci) to run the deployment scripts. It has all required tools preinstalled.
    * On Linux terminal:
       ```
@@ -50,15 +61,16 @@ This repo shows how to deploy OpenVPN inside a VPC using Terraform and Ansible.
    ```
    cd ansible
    ```
-1. Install ansible dependencies
+1. Install ansible dependencies:
    ```
    ansible-galaxy install -r requirements.yml
    ```
-1. To confirm ansible configuration, ping all hosts
+1. To confirm ansible configuration, ping all hosts:
    ```
    ansible all -m ping -i inventory -v
    ```
-1. Install OpenVPN on the bastion
+   > This only works for hosts that have the generated SSH key included in their authorized_keys. If you are using the module with an existing VPC and instances, you need to add the generated key to each instances or to change the ansible config to use your own private key.
+1. Install OpenVPN on the bastion:
    ```
    ansible-playbook -i inventory playbook-openvpn.yml
    ```

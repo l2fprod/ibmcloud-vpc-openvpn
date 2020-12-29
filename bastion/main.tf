@@ -56,6 +56,10 @@ output "bastion_ip" {
   value = ibm_is_floating_ip.bastion_ip.address
 }
 
+output "bastion_instance_id" {
+  value = module.instance.instances.0.id
+}
+
 resource "ibm_is_security_group" "maintenance" {
   name           = "${var.name}-maintenance"
   vpc            = var.vpc_id

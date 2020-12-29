@@ -10,6 +10,7 @@
       openvpn_fetch_config_dir: "./client-config",
       openvpn_push: [
 %{ for subnetIndex, subnet in subnets ~}
+        # route to subnet ${subnet.name}
         "route ${cidrhost(subnet.ipv4_cidr_block, 0)} ${cidrnetmask(subnet.ipv4_cidr_block)}",
 %{ endfor ~}
         # https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc#cloud-service-endpoints
