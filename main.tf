@@ -78,7 +78,7 @@ data ibm_is_subnet existing_subnet {
 
 locals {
   subnets = var.existing_vpc_name != "" ? data.ibm_is_subnet.subnet : module.vpc.0.subnets
-  bastion_subnet = var.existing_subnet_id != "" ? data.ibm_is_subnet.existing_subnet.0 : module.vpc.0.subnets.0
+  bastion_subnet = var.existing_subnet_id != "" ? data.ibm_is_subnet.existing_subnet.0 : local.subnets.0
 }
 
 #
@@ -128,11 +128,11 @@ module bastion {
 }
 
 #
-# Allow all hosts to be accessible by the bastion
+# Allow all hosts created by this script to be accessible by the bastion
 #
 resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
-  for_each          = { for member in local.instances : member.name => member }
-  network_interface = each.value.primary_network_interface.0.id
+  count = var.existing_vpc_name != "" ? 0 : length(module.instance.0.instances)
+  network_interface = module.instance.0.instances[count.index].primary_network_interface.0.id
   security_group    = module.bastion.maintenance_group_id
 }
 
