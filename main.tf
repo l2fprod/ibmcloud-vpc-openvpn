@@ -145,4 +145,5 @@ module ansible {
   instances = local.instances
   subnets = local.subnets
   private_key_pem = tls_private_key.ssh.private_key_pem
+  openvpn_server_network = var.openvpn_server_network
 }

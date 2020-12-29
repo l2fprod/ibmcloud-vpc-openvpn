@@ -21,6 +21,10 @@ variable "vpc_ssh_key_name" {
   description = "(Optional) Name of an existing VPC SSH key to inject in all created instances"
 }
 
+variable "openvpn_server_network" {
+  default = "10.66.0.0"
+}
+
 variable "tags" {
   default = ["terraform"]
 }
