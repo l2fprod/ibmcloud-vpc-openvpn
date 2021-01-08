@@ -116,15 +116,27 @@ locals {
 #
 # A bastion to host OpenVPN
 #
-module bastion {
-  source = "./bastion"
+module "bastion" {
+  source  = "we-work-in-the-cloud/vpc-bastion/ibm"
+  version = "0.0.4"
 
   name = "${var.basename}-bastion"
   resource_group_id = local.resource_group_id
   vpc_id = local.vpc.id
-  vpc_subnet = local.bastion_subnet
+  subnet_id = local.bastion_subnet.id
   ssh_key_ids = local.ssh_key_ids
   tags = concat(var.tags, ["bastion"])
+}
+
+# open the VPN port on the bastion
+resource "ibm_is_security_group_rule" "vpn" {
+  group     = module.bastion.bastion_security_group_id
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+  udp {
+    port_min = 65000
+    port_max = 65000
+  }
 }
 
 #
@@ -133,7 +145,7 @@ module bastion {
 resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
   count = var.existing_vpc_name != "" ? 0 : length(module.instance.0.instances)
   network_interface = module.instance.0.instances[count.index].primary_network_interface.0.id
-  security_group    = module.bastion.maintenance_group_id
+  security_group    = module.bastion.bastion_maintenance_group_id
 }
 
 #
@@ -141,7 +153,7 @@ resource "ibm_is_security_group_network_interface_attachment" "under_maintenance
 #
 module ansible {
   source = "./ansible"
-  bastion_ip = module.bastion.bastion_ip
+  bastion_ip = module.bastion.bastion_public_ip
   instances = local.instances
   subnets = local.subnets
   private_key_pem = tls_private_key.ssh.private_key_pem
