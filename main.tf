@@ -101,15 +101,17 @@ module instance {
 #
 data ibm_is_instances instances {
   count = var.existing_vpc_name != "" ? 1 : 0
+
+  vpc_name = var.existing_vpc_name
 }
 
 #
-# Make sure to keep only the instances in the VPC and also exclude the bastion
+# Make sure to exclude the bastion
 #
 locals {
   instances = var.existing_vpc_name != "" ? [
     for instance in data.ibm_is_instances.instances.0.instances:
-    instance if instance.vpc == local.vpc.id && instance.id != module.bastion.bastion_instance_id
+    instance if instance.id != module.bastion.bastion_id
   ] : module.instance.0.instances
 }
 
@@ -118,7 +120,7 @@ locals {
 #
 module "bastion" {
   source  = "we-work-in-the-cloud/vpc-bastion/ibm"
-  version = "0.0.4"
+  version = "0.0.5"
 
   name = "${var.basename}-bastion"
   resource_group_id = local.resource_group_id
