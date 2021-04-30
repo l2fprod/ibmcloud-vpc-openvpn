@@ -79,13 +79,14 @@ data ibm_is_subnet existing_subnet {
 locals {
   subnets = var.existing_vpc_name != "" ? data.ibm_is_subnet.subnet : module.vpc.0.subnets
   bastion_subnet = var.existing_subnet_id != "" ? data.ibm_is_subnet.existing_subnet.0 : local.subnets.0
+  create_one_instance = var.existing_vpc_name == "" && tobool(var.create_one_instance)
 }
 
 #
 # Optionally create instances
 #
 module instance {
-  count = var.existing_vpc_name != "" ? 0 : 1
+  count = local.create_one_instance ? 1 : 0
 
   source = "./instance"
   name = "${var.basename}-instance"  
@@ -112,7 +113,7 @@ locals {
   instances = var.existing_vpc_name != "" ? [
     for instance in data.ibm_is_instances.instances.0.instances:
     instance if instance.id != module.bastion.bastion_id
-  ] : module.instance.0.instances
+  ] : (local.create_one_instance ? module.instance.0.instances : [])
 }
 
 #
@@ -120,7 +121,7 @@ locals {
 #
 module "bastion" {
   source  = "we-work-in-the-cloud/vpc-bastion/ibm"
-  version = "0.0.5"
+  version = "0.0.7"
 
   name = "${var.basename}-bastion"
   resource_group_id = local.resource_group_id
@@ -145,7 +146,7 @@ resource "ibm_is_security_group_rule" "vpn" {
 # Allow all hosts created by this script to be accessible by the bastion
 #
 resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
-  count = var.existing_vpc_name != "" ? 0 : length(module.instance.0.instances)
+  count = local.create_one_instance ? length(module.instance.0.instances) : 0
   network_interface = module.instance.0.instances[count.index].primary_network_interface.0.id
   security_group    = module.bastion.bastion_maintenance_group_id
 }

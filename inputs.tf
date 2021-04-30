@@ -43,3 +43,8 @@ variable "existing_subnet_id" {
   default = ""
   description = "(Optional) ID of an existing subnet where to add the bastion. VPC name must be set too."
 }
+
+variable "create_one_instance" {
+  default = true
+  description = "Whether to create a VSI instance in the created VPC"
+}
