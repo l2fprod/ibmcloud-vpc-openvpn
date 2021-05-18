@@ -71,14 +71,21 @@ data ibm_is_subnet subnet {
   identifier = local.vpc.subnets[count.index].id
 }
 
+data ibm_is_subnets existing_subnets {
+  count = var.existing_vpc_name != "" ? 1 : 0
+}
+
 data ibm_is_subnet existing_subnet {
   count = var.existing_subnet_id != "" ? 1 : 0
   identifier = var.existing_subnet_id
 }
 
 locals {
-  subnets = var.existing_vpc_name != "" ? data.ibm_is_subnet.subnet : module.vpc.0.subnets
-  bastion_subnet = var.existing_subnet_id != "" ? data.ibm_is_subnet.existing_subnet.0 : local.subnets.0
+  subnets = var.existing_vpc_name != "" ? [
+    for subnet in data.ibm_is_subnets.existing_subnets.0.subnets:
+    subnet if subnet.vpc == data.ibm_is_vpc.vpc.0.id
+  ] : module.vpc.0.subnets
+  bastion_subnet_id = var.existing_subnet_id != "" ? data.ibm_is_subnet.existing_subnet.0.id : local.subnets.0.id
   create_one_instance = var.existing_vpc_name == "" && tobool(var.create_one_instance)
 }
 
@@ -126,7 +133,7 @@ module "bastion" {
   name = "${var.basename}-bastion"
   resource_group_id = local.resource_group_id
   vpc_id = local.vpc.id
-  subnet_id = local.bastion_subnet.id
+  subnet_id = local.bastion_subnet_id
   ssh_key_ids = local.ssh_key_ids
   tags = concat(var.tags, ["bastion"])
 }
