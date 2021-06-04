@@ -44,6 +44,13 @@ variable "existing_subnet_id" {
   description = "(Optional) ID of an existing subnet where to add the bastion. VPC name must be set too."
 }
 
+
+variable "additional_routes" {
+  default = []
+  type = list(string)
+  description = "(Optional) Additional arbitrary routes to add to the OpenVPN routing configuration. Array of host/mask such as 10.0.0.1 255.255.255.0."
+}
+
 variable "create_one_instance" {
   default = true
   description = "Whether to create a VSI instance in the created VPC"

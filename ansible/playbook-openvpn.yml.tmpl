@@ -19,6 +19,10 @@
         # route to subnet ${subnet.name}
         "route ${cidrhost(subnet.ipv4_cidr_block, 0)} ${cidrnetmask(subnet.ipv4_cidr_block)}",
 %{ endfor ~}
+%{ for routeIndex, route in routes ~}
+        # additional route ${routeIndex}
+        "route ${route}",
+%{ endfor ~}
         # https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc#cloud-service-endpoints
         "route 166.9.0.0 255.255.0.0",
         # https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc#infrastructure-as-a-service-iaas-endpoints
