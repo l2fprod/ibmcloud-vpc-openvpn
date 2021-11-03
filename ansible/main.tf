@@ -32,10 +32,11 @@ resource "local_file" "ssh-key" {
 resource "local_file" "openvpn-playbook" {
   content = templatefile("${path.module}/playbook-openvpn.yml.tmpl",
     {
-      bastion_ip = var.bastion_ip
-      subnets = var.subnets
+      bastion_ip             = var.bastion_ip
+      subnets                = var.subnets
       openvpn_server_network = var.openvpn_server_network
-      routes = var.additional_routes
+      client_name            = var.client_name
+      routes                 = var.additional_routes
     }
   )
   filename = "${path.module}/playbook-openvpn.yml"

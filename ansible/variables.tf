@@ -8,3 +8,4 @@ variable additional_routes {
 variable "openvpn_server_network" {
   default = "10.66.0.0"
 }
+variable "client_name" {}

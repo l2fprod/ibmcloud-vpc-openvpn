@@ -12,7 +12,7 @@
       role: kyl191.openvpn,
       openvpn_port: 65000,
       # allow VPN from the machine running ansible
-      clients: [ mymachine ],
+      clients: [ ${client_name} ],
       openvpn_fetch_config_dir: "./client-config",
       openvpn_push: [
 %{ for subnetIndex, subnet in subnets ~}
