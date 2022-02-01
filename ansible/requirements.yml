@@ -1,4 +1,6 @@
 # https://galaxy.ansible.com/oefenweb/apt
 - src: oefenweb.apt
+  version: v2.5.0
 # https://galaxy.ansible.com/kyl191/openvpn
 - src: kyl191.openvpn
+  version: v0.9.1
