@@ -13,7 +13,7 @@
       openvpn_port: 65000,
       # allow VPN from the machine running ansible
       clients: [ ${client_name} ],
-      openvpn_fetch_config_dir: "./client-config",
+      openvpn_fetch_client_configs_dir: "./client-config",
       openvpn_push: [
 %{ for subnetIndex, subnet in subnets ~}
         # route to subnet ${subnet.name}
