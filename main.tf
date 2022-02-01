@@ -160,9 +160,9 @@ resource "ibm_is_security_group_rule" "vpn" {
 #
 # Allow all hosts created by this script to be accessible by the bastion
 #
-resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
+resource "ibm_is_security_group_target" "under_maintenance" {
   count             = local.create_one_instance ? length(module.instance.0.instances) : 0
-  network_interface = module.instance.0.instances[count.index].primary_network_interface.0.id
+  target            = module.instance.0.instances[count.index].primary_network_interface.0.id
   security_group    = module.bastion.bastion_maintenance_group_id
 }
 
