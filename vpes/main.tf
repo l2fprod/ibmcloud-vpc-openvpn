@@ -7,7 +7,7 @@ variable "subnet_id" {}
 locals {
   apis = [
     {
-      id       = "Account-Management"
+      id       = "account-management"
       endpoint = "private.accounts.cloud.ibm.com"
     },
     {
